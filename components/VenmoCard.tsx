@@ -26,7 +26,22 @@ export default function VenmoCard({ person, amount, note, venmoLink }: Props) {
         setTimeout(() => setCopiedNote(false), 2000);
       }
     } catch {
-      // clipboard not available
+      // Fallback for environments without clipboard API
+      const el = document.createElement("textarea");
+      el.value = text;
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      if (type === "amount") {
+        setCopiedAmount(true);
+        setTimeout(() => setCopiedAmount(false), 2000);
+      } else {
+        setCopiedNote(true);
+        setTimeout(() => setCopiedNote(false), 2000);
+      }
     }
   };
 
