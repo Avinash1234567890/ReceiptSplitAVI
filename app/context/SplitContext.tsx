@@ -22,7 +22,7 @@ export function SplitProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<ReceiptItem[]>([]);
   const [people, setPeople] = useState<Person[]>([]);
   const [assignments, setAssignments] = useState<Record<number, string[]>>({});
-  const [taxPercent, setTaxPercent] = useState<number>(8.875);
+  const [taxPercent, setTaxPercent] = useState<number>(0);
   const [tipPercent, setTipPercent] = useState<number>(20);
 
   return (

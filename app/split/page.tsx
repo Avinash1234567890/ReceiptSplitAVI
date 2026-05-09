@@ -18,7 +18,7 @@ export default function SplitPage() {
   const handleAddPerson = (name: string) => {
     const color = personColors[people.length % personColors.length];
     const newPerson: Person = {
-      id: Date.now().toString(),
+      id: people.length > 0 ? (Math.max(...people.map((p) => parseInt(p.id))) + 1).toString() : "1",
       name,
       color,
     };

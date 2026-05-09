@@ -26,7 +26,7 @@ export default function ReviewPage() {
 
   const handleAddItem = () => {
     const newItem: ReceiptItem = {
-      id: Date.now(),
+      id: items.length > 0 ? Math.max(...items.map((i) => i.id)) + 1 : 1,
       name: "",
       price: 0,
     };
