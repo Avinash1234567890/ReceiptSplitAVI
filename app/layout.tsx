@@ -3,7 +3,7 @@ import "./globals.css";
 import { SplitProvider } from "@/app/context/SplitContext";
 
 export const metadata: Metadata = {
-  title: "Splitty – Split bills fairly",
+  title: "Receipt Split Avi – Split bills fairly",
   description: "Split restaurant bills fairly with your friends",
 };
 

@@ -6,13 +6,24 @@ import { useSplit } from "@/app/context/SplitContext";
 import PersonChip from "@/components/PersonChip";
 import AssignmentSelector from "@/components/AssignmentSelector";
 import AddPersonModal from "@/components/AddPersonModal";
+import AddItemModal from "@/components/AddItemModal";
 import { Person } from "@/lib/types";
 import { personColors } from "@/lib/mockData";
 import { Plus, ArrowLeft } from "lucide-react";
 
 export default function SplitPage() {
   const router = useRouter();
-  const { items, people, setPeople, assignments, setAssignments } = useSplit();
+  const {
+    items,
+    people,
+    setPeople,
+    assignments,
+    setAssignments,
+    taxPercent,
+    setTaxPercent,
+    tipPercent,
+    setTipPercent,
+  } = useSplit();
   const [showModal, setShowModal] = useState(false);
 
   const handleAddPerson = (name: string) => {
@@ -84,8 +95,11 @@ export default function SplitPage() {
         </div>
 
         {/* Assignments */}
-        <h2 className="text-sm font-semibold text-gray-700 mb-3">Assign Items</h2>
-        <div className="space-y-3 mb-24">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-gray-700">Assign Items</h2>
+          <AddItemModal />
+        </div>
+        <div className="space-y-3">
           {items.map((item) => (
             <AssignmentSelector
               key={item.id}
@@ -95,6 +109,43 @@ export default function SplitPage() {
               onToggle={handleToggle}
             />
           ))}
+        </div>
+
+        {/* Tax & Tip */}
+        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mt-5 mb-24">
+          <h2 className="text-sm font-semibold text-gray-700 mb-3">Tax & Tip</h2>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">Tax %</label>
+              <div className="flex items-center gap-1 border border-gray-200 rounded-xl px-3 py-2">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  value={taxPercent}
+                  onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
+                  className="w-full text-sm text-gray-800 bg-transparent focus:outline-none"
+                />
+                <span className="text-gray-400 text-sm">%</span>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">Tip %</label>
+              <div className="flex items-center gap-1 border border-gray-200 rounded-xl px-3 py-2">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={tipPercent}
+                  onChange={(e) => setTipPercent(parseFloat(e.target.value) || 0)}
+                  className="w-full text-sm text-gray-800 bg-transparent focus:outline-none"
+                />
+                <span className="text-gray-400 text-sm">%</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Sticky CTA */}

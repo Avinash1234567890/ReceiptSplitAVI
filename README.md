@@ -1,4 +1,4 @@
-# Splitty – Split bills fairly
+# Receipt Split Avi – Split bills fairly
 
 A Next.js app to split restaurant bills based on what each person actually ordered.
 

@@ -3,13 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useSplit } from "@/app/context/SplitContext";
 import ReceiptItemCard from "@/components/ReceiptItemCard";
+import AddItemModal from "@/components/AddItemModal";
 import { ReceiptItem } from "@/lib/types";
 import { computeSubtotal } from "@/lib/calculations";
-import { Plus, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function ReviewPage() {
   const router = useRouter();
-  const { items, setItems, taxPercent, setTaxPercent, tipPercent, setTipPercent } = useSplit();
+  const { items, setItems, taxPercent, setTaxPercent, tipPercent, setTipPercent, deleteItem } = useSplit();
 
   const subtotal = computeSubtotal(items);
   const taxAmount = (taxPercent / 100) * subtotal;
@@ -18,19 +19,6 @@ export default function ReviewPage() {
 
   const handleUpdate = (updated: ReceiptItem) => {
     setItems((prev) => prev.map((i) => (i.id === updated.id ? updated : i)));
-  };
-
-  const handleDelete = (id: number) => {
-    setItems((prev) => prev.filter((i) => i.id !== id));
-  };
-
-  const handleAddItem = () => {
-    const newItem: ReceiptItem = {
-      id: items.length > 0 ? Math.max(...items.map((i) => i.id)) + 1 : 1,
-      name: "",
-      price: 0,
-    };
-    setItems((prev) => [...prev, newItem]);
   };
 
   return (
@@ -54,19 +42,13 @@ export default function ReviewPage() {
               key={item.id}
               item={item}
               onUpdate={handleUpdate}
-              onDelete={handleDelete}
+              onDelete={deleteItem}
             />
           ))}
         </div>
 
         {/* Add Item */}
-        <button
-          onClick={handleAddItem}
-          className="w-full h-11 flex items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-indigo-200 text-indigo-400 text-sm font-medium hover:bg-indigo-50 transition-colors mb-6"
-        >
-          <Plus size={16} />
-          Add Item
-        </button>
+        <AddItemModal />
 
         {/* Tax & Tip */}
         <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-4">

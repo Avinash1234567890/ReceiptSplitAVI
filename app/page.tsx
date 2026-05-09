@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { mockReceiptItems } from "@/lib/mockData";
 
 export default function Home() {
   const router = useRouter();
@@ -15,33 +14,14 @@ export default function Home() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-500 rounded-3xl shadow-lg mb-4">
               <span className="text-2xl">🧾</span>
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Splitty</h1>
-            <p className="mt-2 text-xl text-indigo-500 font-medium">Split bills fairly, not equally</p>
+            <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Receipt Split Avi</h1>
+            <p className="mt-2 text-xl text-indigo-500 font-medium">Everyone pays for what they ordered</p>
           </div>
 
           {/* Description */}
           <p className="text-gray-500 text-base leading-relaxed mb-10 max-w-sm mx-auto">
-            Upload your restaurant receipt and let Splitty divide the bill based on what each person actually ordered.
+            Upload your restaurant receipt, assign items to each person, and let Receipt Split Avi calculate everyone&apos;s exact total including shared items, tax, and tip. Then instantly copy and set up Venmo requests for the whole group in seconds.
           </p>
-
-          {/* Mock preview card */}
-          <div className="bg-white rounded-3xl shadow-md border border-gray-100 p-5 mb-10 text-left">
-            <div className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Sample Receipt</div>
-            <div className="space-y-3">
-              {mockReceiptItems.map((item) => (
-                <div key={item.id} className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-700">{item.name}</span>
-                  <span className="text-sm font-semibold text-gray-800">${item.price.toFixed(2)}</span>
-                </div>
-              ))}
-              <div className="border-t border-gray-100 pt-2 flex justify-between items-center">
-                <span className="text-xs text-gray-400">3 items</span>
-                <span className="text-sm font-bold text-indigo-500">
-                  ${mockReceiptItems.reduce((s, i) => s + i.price, 0).toFixed(2)}
-                </span>
-              </div>
-            </div>
-          </div>
 
           {/* CTA */}
           <button
@@ -53,7 +33,7 @@ export default function Home() {
 
           {/* Feature pills */}
           <div className="flex gap-2 justify-center mt-6 flex-wrap">
-            {["📸 Receipt Scan", "👥 Split fairly", "💸 Venmo links"].map((f) => (
+            {["Receipt Scan", "Split fairly", "Venmo links"].map((f) => (
               <span key={f} className="text-xs bg-white border border-gray-200 text-gray-500 px-3 py-1.5 rounded-full">
                 {f}
               </span>
