@@ -117,7 +117,18 @@ export default function SplitPage() {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-gray-400 mb-1 block">Tax %</label>
-              <div className="flex items-center gap-1 border border-gray-200 rounded-xl px-3 py-2">
+              <div className="flex items-center gap-1 border border-gray-200 rounded-xl px-3 py-2 whitespace-nowrap">
+                <button
+                  type="button"
+                  aria-label="Decrease tax"
+                  onClick={() => setTaxPercent((prev) => Math.max(0, parseFloat((prev - 0.1).toFixed(1))))}
+                  className="p-1 rounded hover:bg-gray-100 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 10l4 4 4-4" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
                 <input
                   type="number"
                   min="0"
@@ -125,14 +136,37 @@ export default function SplitPage() {
                   step="0.1"
                   value={taxPercent}
                   onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                  className="w-full text-sm text-gray-800 bg-transparent focus:outline-none"
+                  className="w-full text-sm text-gray-800 bg-transparent focus:outline-none text-center"
+                  style={{ minWidth: 0 }}
                 />
-                <span className="text-gray-400 text-sm">%</span>
+                <span className="text-gray-400 text-sm" style={{ minWidth: '1.2em' }}>&nbsp;%</span>
+                <button
+                  type="button"
+                  aria-label="Increase tax"
+                  onClick={() => setTaxPercent((prev) => Math.min(100, parseFloat((prev + 0.1).toFixed(1))))}
+                  className="p-1 rounded hover:bg-gray-100 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6l4-4 4 4" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
               </div>
             </div>
             <div>
               <label className="text-xs text-gray-400 mb-1 block">Tip %</label>
-              <div className="flex items-center gap-1 border border-gray-200 rounded-xl px-3 py-2">
+              <div className="flex items-center gap-1 border border-gray-200 rounded-xl px-3 py-2 whitespace-nowrap">
+                <button
+                  type="button"
+                  aria-label="Decrease tip"
+                  onClick={() => setTipPercent((prev) => Math.max(0, Math.round((prev - 1) * 10) / 10))}
+                  className="p-1 rounded hover:bg-gray-100 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 10l4 4 4-4" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
                 <input
                   type="number"
                   min="0"
@@ -140,9 +174,21 @@ export default function SplitPage() {
                   step="1"
                   value={tipPercent}
                   onChange={(e) => setTipPercent(parseFloat(e.target.value) || 0)}
-                  className="w-full text-sm text-gray-800 bg-transparent focus:outline-none"
+                  className="w-full text-sm text-gray-800 bg-transparent focus:outline-none text-center"
+                  style={{ minWidth: 0 }}
                 />
-                <span className="text-gray-400 text-sm">%</span>
+                <span className="text-gray-400 text-sm" style={{ minWidth: '1.2em' }}>&nbsp;%</span>
+                <button
+                  type="button"
+                  aria-label="Increase tip"
+                  onClick={() => setTipPercent((prev) => Math.min(100, Math.round((prev + 1) * 10) / 10))}
+                  className="p-1 rounded hover:bg-gray-100 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6l4-4 4 4" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>

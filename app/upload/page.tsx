@@ -107,31 +107,22 @@ export default function UploadPage() {
       }
 
       const result = await response.json();
-      
       if (result.error) {
         throw new Error(result.error);
       }
-
-      // Parse the text and set the items in context
       const parsedItems = parseOcrText(result.text);
-      
       if (parsedItems.length === 0) {
         setError("Could not find any items and prices in the receipt. Please check the image or enter items manually.");
         setIsLoading(false);
         return;
       }
-
       const newItems = parsedItems.map((item, index) => ({
-        id: index + 1, // Simple ID generation
+        id: index + 1,
         name: item.name,
         price: item.price,
       }));
-
       setItems(newItems);
-
-      // Navigate to the next step
       router.push('/split');
-
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
@@ -140,41 +131,102 @@ export default function UploadPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
-      <div className="max-w-md mx-auto w-full flex flex-col min-h-screen px-4 py-6">
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
-          <button
-            onClick={() => router.back()}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
-          >
-            <ArrowLeft size={18} />
-          </button>
-          <h1 className="text-xl font-bold text-gray-900">Upload Receipt</h1>
-        </div>
-
-        {/* Upload form */}
-        <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-center">
-          <label className="border-2 border-dashed border-indigo-200 rounded-3xl bg-white p-10 flex flex-col items-center justify-center gap-4 mb-6 min-h-64 cursor-pointer hover:bg-indigo-50 transition-colors">
-            <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center">
-              <Camera size={28} className="text-indigo-400" />
-            </div>
-            <div className="text-center">
-              <p className="font-semibold text-gray-700 mb-1">
-                {file ? file.name : 'Upload receipt photo'}
-              </p>
-              <p className="text-sm text-gray-400">Tap to select or drag & drop</p>
-            </div>
-            <Input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-          </label>
-
-          {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
-
-          <Button type="submit" disabled={isLoading || !file} className="w-full h-14 bg-indigo-500 hover:bg-indigo-600 text-white text-base font-semibold rounded-2xl shadow-md shadow-indigo-200 transition-all active:scale-95">
-            {isLoading ? 'Processing...' : 'Process Receipt'}
-          </Button>
-        </form>
+    <main className="flex min-h-screen flex-col items-center justify-between bg-[var(--orange)] px-0 text-white">
+      {/* Header - left-aligned, white, bold */}
+      <div className="w-full flex flex-col items-start mt-[18px] mb-0 pl-2 select-none">
+        <h1
+          className="text-[36px] leading-[1.05] font-extrabold text-white text-left"
+          style={{ fontFamily: 'Inter, Helvetica Neue, Arial, sans-serif', fontWeight: 900 }}
+        >
+          01 / UPLOAD
+        </h1>
       </div>
+
+      {/* Floating lime circle */}
+      <div className="absolute right-6 top-[60px] z-10" style={{ width: 80, height: 80, background: 'var(--lime)', borderRadius: '50%' }} />
+
+      {/* Concentric Circle Upload Target - blue/lime/blue */}
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center w-full flex-1 justify-center"
+        style={{ minHeight: '50svh' }}
+      >
+        <div className="relative flex flex-col items-center justify-center mb-6" style={{ width: 340, height: 340 }}>
+          {/* Outer blue circle with lime border */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-[6px] border-[var(--lime)] bg-[var(--blue)]" style={{ width: 340, height: 340 }} />
+          {/* Middle lime circle */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--lime)]" style={{ width: 200, height: 200 }} />
+          {/* Inner blue circle (upload target) */}
+          <label
+            htmlFor="file-upload"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center rounded-full bg-[var(--blue)] cursor-pointer"
+            style={{ width: 120, height: 120 }}
+          >
+            <span className="flex items-center justify-center w-full h-full">
+              <span className="block w-full h-full relative">
+                <span className="absolute left-1/2 top-1/2 w-[60%] h-[4px] bg-white" style={{transform:'translate(-50%,-50%)'}}></span>
+                <span className="absolute left-1/2 top-1/2 h-[60%] w-[4px] bg-white" style={{transform:'translate(-50%,-50%)'}}></span>
+              </span>
+            </span>
+            <Input
+              id="file-upload"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </label>
+          {/* SVG Circular Text - white, Times New Roman, tightly fit to blue circle */}
+          <svg
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none rotate-[-55deg]"
+            width={320}
+            height={320}
+            viewBox="0 0 320 320"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ width: 320, height: 320 }}
+          >
+            <defs>
+              <path
+                id="circlePath"
+                d="M160,30 a130,130 0 1,1 0,260 a130,130 0 1,1 0,-260"
+              />
+            </defs>
+            <text fill="white" fontSize="20" fontFamily="Times New Roman, Times, serif" fontWeight="400" letterSpacing="1.5">
+              <textPath xlinkHref="#circlePath" startOffset="0">
+                Upload image of your Recipt
+              </textPath>
+            </text>
+          </svg>
+        </div>
+        {/* File name or prompt - hidden for screenshot match */}
+        {/* Error message */}
+        {error && <p className="text-red-500 text-sm text-center mb-2">{error}</p>}
+        {/* Process Button - white, bold, black text, arrow */}
+        <Button
+          type="submit"
+          disabled={isLoading || !file}
+          className="w-full max-w-[260px] h-[56px] rounded-none border-none transition-all active:scale-95 mt-2 mb-6 flex items-center justify-center px-10"
+          style={{
+            background: '#fff !important',
+            backgroundColor: '#fff !important',
+            color: '#572100',
+            fontWeight: 900,
+            fontSize: '2rem',
+            fontFamily: 'Inter, Helvetica Neue, Arial, sans-serif',
+            boxShadow: '0 0 0 2px #fff',
+            opacity: 1,
+            zIndex: 10,
+            justifyContent: 'center',
+            textAlign: 'center'
+          }}
+        >
+          <span style={{fontWeight:900, fontSize:'2rem', color:'#572100', letterSpacing: '-0.03em', width:'100%', textAlign:'center'}}>PROCESS</span>
+        </Button>
+      </form>
+
+      {/* Bottom bar for mobile spacing */}
+      <div className="h-[18px] w-full" />
     </main>
   );
 }

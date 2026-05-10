@@ -4,41 +4,70 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
+  const title = "RECEIPT SPLIT AVI";
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full mx-auto text-center">
-          {/* Logo / App name */}
-          <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-500 rounded-3xl shadow-lg mb-4">
-              <span className="text-2xl">🧾</span>
-            </div>
-            <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Receipt Split Avi</h1>
-            <p className="mt-2 text-xl text-indigo-500 font-medium">Everyone pays for what they ordered</p>
-          </div>
+    <main className="flex min-h-screen items-start justify-center overflow-x-hidden bg-black px-0 text-white sm:px-6">
+      <div className="landing-poster relative min-h-[100svh] w-[min(100vw,430px)] overflow-hidden bg-black">
+        <div
+          className="orange-block absolute left-[clamp(1.1rem,4vw,1.6rem)] top-[clamp(2rem,5svh,2.4rem)] h-[clamp(2.5rem,6svh,3rem)] w-[clamp(7rem,28vw,8.5rem)]"
+          style={{ backgroundColor: "var(--orange)" }}
+        />
 
-          {/* Description */}
-          <p className="text-gray-500 text-base leading-relaxed mb-10 max-w-sm mx-auto">
-            Upload your restaurant receipt, assign items to each person, and let Receipt Split Avi calculate everyone&apos;s exact total including shared items, tax, and tip. Then instantly copy and set up Venmo requests for the whole group in seconds.
+        <div
+          className="blue-stroke absolute left-[clamp(6.8rem,18vw,8rem)] top-[clamp(1.4rem,3svh,2rem)] h-[clamp(38rem,96svh,50rem)] w-[clamp(10rem,42vw,13rem)]"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute left-[10%] top-0 h-[55%] w-[76%] border-[clamp(0.5rem,1.45vw,0.62rem)]"
+            style={{
+              borderColor: "var(--blue)",
+              borderRadius: "64% 36% 24% 76% / 22% 72% 28% 78%",
+              transform: "rotate(23deg)",
+            }}
+          />
+          <div
+            className="absolute left-[2%] top-[33%] h-[58%] w-[78%] border-[clamp(0.5rem,1.45vw,0.62rem)]"
+            style={{
+              borderColor: "var(--blue)",
+              borderRadius: "28% 72% 22% 78% / 18% 68% 32% 82%",
+              transform: "rotate(29deg)",
+            }}
+          />
+        </div>
+
+        <div className="absolute left-[clamp(4.5rem,12vw,5rem)] top-[calc(clamp(2rem,5svh,2.4rem)+clamp(2.5rem,6svh,3rem)+clamp(0.7rem,1.8svh,0.95rem))] bottom-[clamp(1.2rem,3svh,1.6rem)] z-10 w-[clamp(4.5rem,10vw,5rem)]">
+          <span
+            className="hero-title absolute bottom-0 left-0 block whitespace-nowrap text-[clamp(3.2rem,9.4svh,4.8rem)] leading-[1.02] tracking-[-0.06em]"
+            style={{ transform: "rotate(-90deg)", transformOrigin: "bottom left" }}
+          >
+            {title}
+          </span>
+        </div>
+
+        <div className="absolute right-[clamp(1.45rem,5vw,2rem)] top-[clamp(13.8rem,32svh,15.6rem)] z-10 max-w-[clamp(8.2rem,28vw,9rem)] text-left">
+          <p
+            className="hero-subtitle text-[clamp(1.18rem,3.7vw,1.65rem)] font-normal normal-case leading-[0.93] tracking-[-0.03em]"
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+          >
+            Everyone pays for what they ordered.
           </p>
+          <p
+            className="hero-meta mt-[clamp(1.1rem,2.8svh,1.45rem)] max-w-[7.5rem] text-[clamp(0.74rem,1.7vw,0.84rem)] leading-[1.16] tracking-[0.06em]"
+            style={{ color: "var(--lime)" }}
+          >
+            SCAN / SPLIT / VENMO /
+          </p>
+        </div>
 
-          {/* CTA */}
+        <div className="hero-cta absolute bottom-[clamp(3.5rem,7.8svh,4.4rem)] right-[clamp(1rem,4vw,1.5rem)] z-10">
           <button
             onClick={() => router.push("/upload")}
-            className="w-full h-14 bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-semibold rounded-2xl shadow-lg shadow-indigo-200 transition-all active:scale-95"
+            className="min-w-[clamp(11rem,40vw,13.2rem)] max-w-[13.2rem] px-[clamp(0.95rem,3.2vw,1.25rem)] py-[clamp(0.9rem,2.2svh,1.05rem)] text-[clamp(0.9rem,3vw,1.15rem)] leading-[0.9] text-black"
+            style={{ backgroundColor: "var(--lime)" }}
           >
-            Start Splitting →
+            START SPLITTING →
           </button>
-
-          {/* Feature pills */}
-          <div className="flex gap-2 justify-center mt-6 flex-wrap">
-            {["Receipt Scan", "Split fairly", "Venmo links"].map((f) => (
-              <span key={f} className="text-xs bg-white border border-gray-200 text-gray-500 px-3 py-1.5 rounded-full">
-                {f}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </main>
