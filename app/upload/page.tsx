@@ -74,12 +74,17 @@ export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const { setItems } = useSplit();
   const router = useRouter();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
+    if (event.target.files && event.target.files[0]) {
       setFile(event.target.files[0]);
+      setUploadSuccess(true); // Turn pink when file is selected
+    } else {
+      setFile(null);
+      setUploadSuccess(false); // Reset if file is cleared
     }
   };
 
@@ -156,11 +161,16 @@ export default function UploadPage() {
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-[6px] border-[var(--lime)] bg-[var(--blue)]" style={{ width: 340, height: 340 }} />
           {/* Middle lime circle */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--lime)]" style={{ width: 200, height: 200 }} />
-          {/* Inner blue circle (upload target) */}
+          {/* Inner blue circle (upload target) - turns pink on success */}
           <label
             htmlFor="file-upload"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center rounded-full bg-[var(--blue)] cursor-pointer"
-            style={{ width: 120, height: 120 }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center rounded-full cursor-pointer"
+            style={{
+              width: 120,
+              height: 120,
+              background: uploadSuccess ? 'rgb(231, 51, 158)' : 'var(--blue)',
+              transition: 'background 0.2s',
+            }}
           >
             <span className="flex items-center justify-center w-full h-full">
               <span className="block w-full h-full relative">
