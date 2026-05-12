@@ -7,8 +7,8 @@ export default function Home() {
   const title = "RECEIPT SPLIT AVI";
 
   return (
-    <main className="flex min-h-screen items-start justify-center overflow-x-hidden bg-[#2A2A2A] px-0 text-white sm:px-6">
-      <div className="landing-poster relative min-h-[100svh] w-[min(100vw,430px)] overflow-hidden bg-[#2A2A2A]">
+    <main className="flex min-h-screen items-start justify-center overflow-x-hidden bg-[#1B0E34] px-0 text-white sm:px-6">
+      <div className="landing-poster relative min-h-[100svh] w-[min(100vw,430px)] overflow-hidden bg-[#1B0E34]">
         <div
           className="orange-block absolute left-[clamp(1.1rem,4vw,1.6rem)] top-[clamp(2rem,5svh,2.4rem)] h-[clamp(2.5rem,6svh,3rem)] w-[clamp(7rem,28vw,8.5rem)]"
           style={{ backgroundColor: "var(--orange)" }}

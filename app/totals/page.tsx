@@ -20,7 +20,7 @@ export default function TotalsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#2A2A2A] flex flex-col font-black text-white">
+    <main className="min-h-screen bg-[#1B0E34] flex flex-col font-black text-white">
       <div className="w-full max-w-md mx-auto flex flex-col min-h-screen px-2 pt-6 pb-32">
         {/* Header */}
         <div className="w-full pt-6 pb-4 flex flex-row items-start justify-between select-none mb-8">
@@ -70,7 +70,7 @@ export default function TotalsPage() {
         <div className="w-full max-w-md mx-auto mt-8">
           <button
             onClick={handleStartOver}
-            className="w-full h-14 flex items-center justify-center gap-3 bg-[#2A2A2A] text-lime text-lg font-black rounded-2xl shadow-xl border-2 border-lime hover:bg-lime hover:text-black transition-all duration-150 active:scale-95 uppercase tracking-wide"
+            className="w-full h-14 flex items-center justify-center gap-3 bg-[#1B0E34] text-lime text-lg font-black rounded-2xl shadow-xl border-2 border-lime hover:bg-lime hover:text-black transition-all duration-150 active:scale-95 uppercase tracking-wide"
           >
             <RefreshCcw size={22} />
             Start Over

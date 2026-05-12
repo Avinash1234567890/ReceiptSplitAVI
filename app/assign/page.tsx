@@ -289,7 +289,7 @@ export default function AssignPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center px-2 pb-6 bg-[#2A2A2A] text-white relative">
+    <main className="min-h-screen flex flex-col items-center px-2 pb-6 bg-[#1B0E34] text-white relative">
       {/* Back Button - top right */}
       <button
         onClick={() => router.push('/upload')}
@@ -343,7 +343,7 @@ export default function AssignPage() {
           const assignLayout = getAssignLayout(people.length);
           const assignedPersonIds = assignments[item.id] || [];
           return (
-            <div key={item.id ?? idx} className="border-4 border-blue bg-[#2A2A2A] rounded-none p-3 flex flex-col gap-2 mb-4">
+            <div key={item.id ?? idx} className="border-4 border-blue bg-[#1B0E34] rounded-none p-3 flex flex-col gap-2 mb-4">
               <div className="flex items-center justify-between">
                 <InlineEditableItem item={item} idx={idx} setItems={setItems} />
                 <div className="flex items-center" style={{gap: 8}}>

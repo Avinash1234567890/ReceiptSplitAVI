@@ -135,30 +135,29 @@ export default function UploadPage() {
     }
   };
 
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between bg-[var(--orange)] px-0 text-white">
-      {/* Header - left-aligned, white, bold */}
-      <div className="w-full flex flex-col items-start mt-[18px] mb-0 pl-2 select-none">
+      {/* Header and Back Button Row */}
+      <div className="w-full flex flex-row items-center justify-between mt-[18px] mb-0 px-2 select-none relative">
         <h1
           className="text-[36px] leading-[1.05] font-extrabold text-white text-left"
           style={{ fontFamily: 'Inter, Helvetica Neue, Arial, sans-serif', fontWeight: 900 }}
         >
           01 / UPLOAD
         </h1>
+        <button
+          className="z-10 flex items-center justify-center"
+          style={{ width: 80, height: 80, background: 'var(--lime)', borderRadius: '50%', border: 'none', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+          onClick={() => router.push('/')}
+          title="Back to Home"
+          aria-label="Back to Home"
+        >
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 10L14 18L22 26" stroke="#0047FF" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
-
-      {/* Floating lime circle as back button */}
-      <button
-        className="absolute right-6 top-[60px] z-10 flex items-center justify-center"
-        style={{ width: 80, height: 80, background: 'var(--lime)', borderRadius: '50%', border: 'none', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
-        onClick={() => router.push('/')}
-        title="Back to Home"
-        aria-label="Back to Home"
-      >
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22 10L14 18L22 26" stroke="#0047FF" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
 
       {/* Concentric Circle Upload Target - blue/lime/blue */}
       <form

@@ -22,7 +22,7 @@ export default function ReviewPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
+    <main className="min-h-screen bg-[#1B0E34] flex flex-col">
       <div className="max-w-md mx-auto w-full flex flex-col min-h-screen px-4 py-6">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
