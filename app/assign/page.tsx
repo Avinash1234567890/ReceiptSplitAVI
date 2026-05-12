@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useSplit } from "@/app/context/SplitContext";
 
@@ -76,7 +77,7 @@ function InlineEditableItem({ item, idx, setItems }: {
           {item.name}
         </span>
       )}
-      <span className="text-black font-bold">$</span>
+      {/* Removed extra dollar sign */}
       {editingField === 'price' ? (
         <input
           ref={priceInputRef}
@@ -143,8 +144,8 @@ function InlineEditableName({ person, idx, setPeople, removePerson }: {
   return (
     <div className="flex items-center gap-2 group">
       <div
-        className="flex items-center gap-2 px-3 py-1 rounded bg-opacity-80 cursor-pointer"
-        style={{ background: person.color, color: '#fff', minWidth: 0 }}
+        className="flex items-center gap-2 px-3 py-1 rounded cursor-pointer"
+        style={{ minWidth: 0 }}
         onClick={() => setEditing(true)}
         tabIndex={0}
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setEditing(true); }}
@@ -212,6 +213,7 @@ function getAssignLayout(count: number): { direction: 'column', positions: numbe
 }
 
 export default function AssignPage() {
+  const router = useRouter();
   const {
     people,
     setPeople,
@@ -243,8 +245,9 @@ export default function AssignPage() {
     setPeople((people: Person[]) => people.filter((_, i) => i !== idx));
     setAssignments((assignments: Record<number, string[]>) => {
       const newAssignments = { ...assignments };
+      const removedPersonId = people[idx]?.id;
       Object.keys(newAssignments).forEach((itemId) => {
-        newAssignments[Number(itemId)] = newAssignments[Number(itemId)].filter((pid) => pid !== idx.toString());
+        newAssignments[Number(itemId)] = newAssignments[Number(itemId)].filter((pid) => pid !== removedPersonId);
       });
       return newAssignments;
     });
@@ -255,7 +258,8 @@ export default function AssignPage() {
       const itemId = items[itemIdx]?.id;
       if (itemId == null) return assignments;
       const assigned = assignments[itemId] || [];
-      const personId = personIdx.toString();
+      const personId = people[personIdx]?.id;
+      if (!personId) return assignments;
       const updated = assigned.includes(personId)
         ? assigned.filter((pid) => pid !== personId)
         : [...assigned, personId];
@@ -285,7 +289,19 @@ export default function AssignPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center px-2 pb-6 bg-orange text-white">
+    <main className="min-h-screen flex flex-col items-center px-2 pb-6 bg-[#2A2A2A] text-white relative">
+      {/* Back Button - top right */}
+      <button
+        onClick={() => router.push('/upload')}
+        className="absolute top-6 right-6 z-10 bg-pink-500 hover:bg-pink-600 text-black font-black rounded-none shadow-lg w-12 h-12 flex items-center justify-center text-3xl transition"
+        title="Back to Upload"
+        aria-label="Back to Upload"
+        style={{ border: '2px solid #000' }}
+      >
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L10 14L18 22" stroke="black" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
       {/* Header */}
       <div className="w-full pt-6 pb-4 flex flex-col items-start pl-2 select-none">
         <h1 className="text-[2.8rem] font-black leading-none tracking-tight text-white" style={{ fontFamily: 'Inter, Helvetica Neue, Arial, sans-serif', fontWeight: 900 }}>
@@ -327,7 +343,7 @@ export default function AssignPage() {
           const assignLayout = getAssignLayout(people.length);
           const assignedPersonIds = assignments[item.id] || [];
           return (
-            <div key={item.id ?? idx} className="border-4 border-blue bg-black rounded-none p-3 flex flex-col gap-2 mb-4">
+            <div key={item.id ?? idx} className="border-4 border-blue bg-[#2A2A2A] rounded-none p-3 flex flex-col gap-2 mb-4">
               <div className="flex items-center justify-between">
                 <InlineEditableItem item={item} idx={idx} setItems={setItems} />
                 <div className="flex items-center" style={{gap: 8}}>
@@ -337,20 +353,18 @@ export default function AssignPage() {
                         {row.map((pidx) => {
                           if (pidx >= people.length) return null;
                           const person = people[pidx];
-                          const assigned = assignedPersonIds.includes(pidx.toString());
+                          const assigned = assignedPersonIds.includes(person.id);
                           return (
                             <button
                               key={pidx}
                               onClick={() => toggleAssign(idx, pidx)}
-                              className="w-6 h-6 border-4 focus:outline-none"
+                              className="w-6 h-6 focus:outline-none"
                               style={{
                                 background: person.color,
-                                borderColor: '#B7FF00',
-                                borderStyle: 'solid',
+                                border: assigned ? '3px solid #FFF500' : '3px solid transparent',
                                 borderRadius: 0,
-                                opacity: assigned ? 1 : 0.5,
-                                boxShadow: assigned ? `0 0 0 2px ${person.color}` : 'none',
-                                transition: 'background 0.2s, opacity 0.2s, border-color 0.2s',
+                                opacity: 1,
+                                transition: 'border 0.2s',
                               }}
                               title={assigned ? `Unassign ${person.name}` : `Assign ${person.name}`}
                             />
@@ -407,17 +421,11 @@ export default function AssignPage() {
 
       {/* Calculate Button */}
       <Button
-        className="w-full max-w-[420px] h-[64px] bg-lime text-black text-3xl font-black rounded-none border-none transition-all active:scale-95 mt-2 flex items-center justify-center gap-3"
+        className="w-full max-w-[420px] h-[64px] bg-pink-500 text-white text-3xl font-black rounded-none border-none transition-all active:scale-95 mt-2 flex items-center justify-center gap-3"
         style={{fontWeight:900, fontSize:'2.2rem', letterSpacing:'-0.03em'}}
-        onClick={() => setShowAssignments(true)}
+        onClick={() => router.push('/totals')}
       >
         CALCULATE
-        <span className="flex items-center">
-          <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 12H34" stroke="#000" strokeWidth="4" strokeLinecap="round"/>
-            <path d="M24 4L34 12L24 20" stroke="#000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </span>
       </Button>
 
       {/* Assignment Debug Modal */}
@@ -427,7 +435,7 @@ export default function AssignPage() {
             <h2 className="text-2xl font-black mb-4">Assignments</h2>
             <pre className="text-xs whitespace-pre-wrap mb-4" style={{maxHeight:300,overflowY:'auto'}}>{JSON.stringify(items.map((item) => ({
               item: item.name,
-              assigned: (assignments[item.id] || []).map(pid => people[Number(pid)]?.name).filter(Boolean),
+              assigned: (assignments[item.id] || []).map(pid => people.find(p => p.id === pid)?.name).filter(Boolean),
             })), null, 2)}</pre>
             <Button onClick={() => setShowAssignments(false)} className="bg-black text-white font-black px-6 py-2">Close</Button>
           </div>

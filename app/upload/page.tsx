@@ -147,8 +147,18 @@ export default function UploadPage() {
         </h1>
       </div>
 
-      {/* Floating lime circle */}
-      <div className="absolute right-6 top-[60px] z-10" style={{ width: 80, height: 80, background: 'var(--lime)', borderRadius: '50%' }} />
+      {/* Floating lime circle as back button */}
+      <button
+        className="absolute right-6 top-[60px] z-10 flex items-center justify-center"
+        style={{ width: 80, height: 80, background: 'var(--lime)', borderRadius: '50%', border: 'none', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+        onClick={() => router.push('/')}
+        title="Back to Home"
+        aria-label="Back to Home"
+      >
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 10L14 18L22 26" stroke="#0047FF" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
 
       {/* Concentric Circle Upload Target - blue/lime/blue */}
       <form
@@ -216,17 +226,14 @@ export default function UploadPage() {
         <Button
           type="submit"
           disabled={isLoading || !file}
-          className="w-full max-w-[260px] h-[56px] rounded-none border-none transition-all active:scale-95 mt-2 mb-6 flex items-center justify-center px-10"
+          className="w-full max-w-[260px] h-[56px] rounded-none border-4 border-white bg-white text-[#572100] font-black text-3xl transition-transform active:scale-95 duration-100 mt-2 mb-6 flex items-center justify-center px-10"
           style={{
-            background: '#fff !important',
-            backgroundColor: '#fff !important',
-            color: '#572100',
+            background: '#fff',
+            backgroundColor: '#fff',
+            opacity: 1,
             fontWeight: 900,
             fontSize: '2rem',
             fontFamily: 'Inter, Helvetica Neue, Arial, sans-serif',
-            boxShadow: '0 0 0 2px #fff',
-            opacity: 1,
-            zIndex: 10,
             justifyContent: 'center',
             textAlign: 'center'
           }}

@@ -7,8 +7,8 @@ export default function Home() {
   const title = "RECEIPT SPLIT AVI";
 
   return (
-    <main className="flex min-h-screen items-start justify-center overflow-x-hidden bg-black px-0 text-white sm:px-6">
-      <div className="landing-poster relative min-h-[100svh] w-[min(100vw,430px)] overflow-hidden bg-black">
+    <main className="flex min-h-screen items-start justify-center overflow-x-hidden bg-[#2A2A2A] px-0 text-white sm:px-6">
+      <div className="landing-poster relative min-h-[100svh] w-[min(100vw,430px)] overflow-hidden bg-[#2A2A2A]">
         <div
           className="orange-block absolute left-[clamp(1.1rem,4vw,1.6rem)] top-[clamp(2rem,5svh,2.4rem)] h-[clamp(2.5rem,6svh,3rem)] w-[clamp(7rem,28vw,8.5rem)]"
           style={{ backgroundColor: "var(--orange)" }}
@@ -63,10 +63,10 @@ export default function Home() {
         <div className="hero-cta absolute bottom-[clamp(3.5rem,7.8svh,4.4rem)] right-[clamp(1rem,4vw,1.5rem)] z-10">
           <button
             onClick={() => router.push("/upload")}
-            className="min-w-[clamp(11rem,40vw,13.2rem)] max-w-[13.2rem] px-[clamp(0.95rem,3.2vw,1.25rem)] py-[clamp(0.9rem,2.2svh,1.05rem)] text-[clamp(0.9rem,3vw,1.15rem)] leading-[0.9] text-black"
+            className="min-w-[clamp(11rem,40vw,13.2rem)] max-w-[13.2rem] px-[clamp(0.95rem,3.2vw,1.25rem)] py-[clamp(0.9rem,2.2svh,1.05rem)] text-[clamp(0.9rem,3vw,1.15rem)] leading-[0.9] text-black active:scale-95 transition-transform duration-100"
             style={{ backgroundColor: "var(--lime)" }}
           >
-            START SPLITTING →
+            START SPLITTING
           </button>
         </div>
       </div>

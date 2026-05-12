@@ -8,6 +8,7 @@ import { computePersonTotals } from "@/lib/calculations";
 import { generateVenmoNote, getVenmoLink } from "@/lib/venmo";
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 
+
 export default function TotalsPage() {
   const router = useRouter();
   const { items, people, assignments, taxPercent, tipPercent } = useSplit();
@@ -19,32 +20,39 @@ export default function TotalsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
-      <div className="max-w-md mx-auto w-full flex flex-col min-h-screen px-4 py-6">
+    <main className="min-h-screen bg-[#2A2A2A] flex flex-col font-black text-white">
+      <div className="w-full max-w-md mx-auto flex flex-col min-h-screen px-2 pt-6 pb-32">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="w-full pt-6 pb-4 flex flex-row items-start justify-between select-none mb-8">
+          <h1 className="text-[2.8rem] font-black leading-none tracking-tight text-white pl-2" style={{ fontFamily: 'Inter, Helvetica Neue, Arial, sans-serif', fontWeight: 900 }}>
+            03 / TOTAL
+          </h1>
           <button
-            onClick={() => router.back()}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-500 hover:bg-gray-50"
+            onClick={() => router.push('/assign')}
+            className="bg-pink-500 hover:bg-pink-600 text-black font-black rounded-none shadow-lg w-12 h-12 flex items-center justify-center text-3xl transition mr-2"
+            title="Back to Assign"
+            aria-label="Back to Assign"
+            style={{ border: '2px solid #000' }}
           >
-            <ArrowLeft size={18} />
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L10 14L18 22" stroke="black" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
-          <h1 className="text-xl font-bold text-gray-900">Final Totals</h1>
         </div>
 
         {/* Per person cards */}
         {people.length === 0 ? (
           <div className="flex-1 flex items-center justify-center">
-            <p className="text-gray-400 text-center">No people added.<br />Go back and add people to split with.</p>
+            <p className="text-gray-600 text-center opacity-60">No people added.<br />Go back and add people to split with.</p>
           </div>
         ) : (
-          <div className="space-y-6 mb-24">
+          <div className="flex-1 overflow-y-auto pb-4 space-y-8">
             {people.map((person) => {
               const breakdown = totals[person.id] || { subtotal: 0, tax: 0, tip: 0, total: 0 };
               const note = generateVenmoNote(person, items, assignments, breakdown.total);
               const venmoLink = getVenmoLink(person.name.toLowerCase(), breakdown.total, note);
               return (
-                <div key={person.id} className="space-y-3">
+                <div key={person.id} className="space-y-4">
                   <TotalsCard person={person} breakdown={breakdown} />
                   <VenmoCard
                     person={person}
@@ -58,17 +66,15 @@ export default function TotalsPage() {
           </div>
         )}
 
-        {/* Sticky CTA */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 z-10">
-          <div className="max-w-md mx-auto">
-            <button
-              onClick={handleStartOver}
-              className="w-full h-14 flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white text-base font-semibold rounded-2xl shadow-md transition-all active:scale-95"
-            >
-              <RefreshCcw size={18} />
-              Start Over
-            </button>
-          </div>
+        {/* Start Over CTA at bottom, not sticky, no gradient */}
+        <div className="w-full max-w-md mx-auto mt-8">
+          <button
+            onClick={handleStartOver}
+            className="w-full h-14 flex items-center justify-center gap-3 bg-[#2A2A2A] text-lime text-lg font-black rounded-2xl shadow-xl border-2 border-lime hover:bg-lime hover:text-black transition-all duration-150 active:scale-95 uppercase tracking-wide"
+          >
+            <RefreshCcw size={22} />
+            Start Over
+          </button>
         </div>
       </div>
     </main>
