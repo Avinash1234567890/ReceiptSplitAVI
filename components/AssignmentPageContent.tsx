@@ -1,20 +1,16 @@
+
 "use client";
 
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useSplit } from "@/app/context/SplitContext";
 
-import { ReceiptItem, Person } from "@/lib/types";
-function InlineEditableItem({ item, idx, setItems }: {
-  item: ReceiptItem;
-  idx: number;
-  setItems: React.Dispatch<React.SetStateAction<ReceiptItem[]>>;
-}) {
-  const [editingField, setEditingField] = React.useState<null | "name" | "price" >(null);
-  const [name, setName] = React.useState<string>(item.name);
-  const [price, setPrice] = React.useState<string>(item.price.toFixed(2));
-  const nameInputRef = React.useRef<HTMLInputElement>(null);
-  const priceInputRef = React.useRef<HTMLInputElement>(null);
+function InlineEditableItem({ item, idx, setItems }) {
+  const [editingField, setEditingField] = React.useState(null);
+  const [name, setName] = React.useState(item.name);
+  const [price, setPrice] = React.useState(item.price.toFixed(2));
+  const nameInputRef = React.useRef(null);
+  const priceInputRef = React.useRef(null);
 
   React.useEffect(() => {
     setName(item.name);
@@ -32,7 +28,7 @@ function InlineEditableItem({ item, idx, setItems }: {
   }, [editingField]);
 
   function handleSaveField() {
-    setItems((items: ReceiptItem[]) => items.map((it: ReceiptItem, i: number) => i === idx ? {
+    setItems(items => items.map((it, i) => i === idx ? {
       ...it,
       name: name.trim() || it.name,
       price: isNaN(Number(price)) ? it.price : Math.max(0, Number(price)),
@@ -40,7 +36,7 @@ function InlineEditableItem({ item, idx, setItems }: {
     setEditingField(null);
   }
 
-  function handleKeyDownField(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleKeyDownField(e) {
     if (e.key === "Enter") {
       handleSaveField();
     } else if (e.key === "Escape") {
@@ -105,15 +101,10 @@ function InlineEditableItem({ item, idx, setItems }: {
   );
 }
 
-function InlineEditableName({ person, idx, setPeople, removePerson }: {
-  person: Person;
-  idx: number;
-  setPeople: React.Dispatch<React.SetStateAction<Person[]>>;
-  removePerson: (idx: number) => void;
-}) {
-  const [editing, setEditing] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<string>(person.name);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+function InlineEditableName({ person, idx, setPeople, removePerson }) {
+  const [editing, setEditing] = React.useState(false);
+  const [value, setValue] = React.useState(person.name);
+  const inputRef = React.useRef(null);
 
   React.useEffect(() => {
     setValue(person.name);
@@ -127,11 +118,11 @@ function InlineEditableName({ person, idx, setPeople, removePerson }: {
   }, [editing]);
 
   function handleSave() {
-    setPeople((people: Person[]) => people.map((p: Person, i: number) => i === idx ? { ...p, name: value.trim() || p.name } : p));
+    setPeople(people => people.map((p, i) => i === idx ? { ...p, name: value.trim() || p.name } : p));
     setEditing(false);
   }
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleKeyDown(e) {
     if (e.key === "Enter") {
       handleSave();
     } else if (e.key === "Escape") {
@@ -180,7 +171,7 @@ function InlineEditableName({ person, idx, setPeople, removePerson }: {
   );
 }
 
-const COLORS: { name: string; color: string }[] = [
+const COLORS = [
   { name: "orange", color: "#FF5A1F" },
   { name: "magenta", color: "#FF00A8" },
   { name: "blue", color: "#0047FF" },
@@ -191,18 +182,18 @@ const COLORS: { name: string; color: string }[] = [
   { name: "red", color: "#FF1F1F" },
 ];
 
-function getNextColor(used: string[]): string {
+function getNextColor(used) {
   const available = COLORS.filter(c => !used.includes(c.color));
   if (available.length === 0) return COLORS[0].color;
   return available[0].color;
 }
 
-function getAssignLayout(count: number): { direction: 'column', positions: number[][] } {
+function getAssignLayout(count) {
   if (count === 1) return { direction: 'column', positions: [[0]] };
   if (count === 2) return { direction: 'column', positions: [[0],[1]] };
   if (count === 3) return { direction: 'column', positions: [[0,1],[2]] };
   if (count === 4) return { direction: 'column', positions: [[0,1],[2,3]] };
-  const rows: number[][] = [];
+  const rows = [];
   let i = 0;
   while (i < count) {
     rows.push([i, i+1].filter(x => x < count));
@@ -211,7 +202,7 @@ function getAssignLayout(count: number): { direction: 'column', positions: numbe
   return { direction: 'column', positions: rows };
 }
 
-export default function AssignPage() {
+export default function AssignmentPageContent() {
   const {
     people,
     setPeople,
@@ -227,7 +218,7 @@ export default function AssignPage() {
   const [showAssignments, setShowAssignments] = React.useState(false);
 
   function addPerson() {
-    const usedColors = people.map((p: Person) => p.color);
+    const usedColors = people.map((p) => p.color);
     const color = getNextColor(usedColors);
     setPeople([
       ...people,
@@ -239,9 +230,9 @@ export default function AssignPage() {
     ]);
   }
 
-  function removePerson(idx: number) {
-    setPeople((people: Person[]) => people.filter((_, i) => i !== idx));
-    setAssignments((assignments: Record<number, string[]>) => {
+  function removePerson(idx) {
+    setPeople((people) => people.filter((_, i) => i !== idx));
+    setAssignments((assignments) => {
       const newAssignments = { ...assignments };
       Object.keys(newAssignments).forEach((itemId) => {
         newAssignments[Number(itemId)] = newAssignments[Number(itemId)].filter((pid) => pid !== idx.toString());
@@ -250,8 +241,8 @@ export default function AssignPage() {
     });
   }
 
-  function toggleAssign(itemIdx: number, personIdx: number) {
-    setAssignments((assignments: Record<number, string[]>) => {
+  function toggleAssign(itemIdx, personIdx) {
+    setAssignments((assignments) => {
       const itemId = items[itemIdx]?.id;
       if (itemId == null) return assignments;
       const assigned = assignments[itemId] || [];
@@ -264,19 +255,19 @@ export default function AssignPage() {
   }
 
   function addItem() {
-    setItems((items: ReceiptItem[]) => [
+    setItems((items) => [
       ...items,
       {
-        id: items.length > 0 ? Math.max(...items.map((i: ReceiptItem) => i.id)) + 1 : 1,
+        id: items.length > 0 ? Math.max(...items.map((i) => i.id)) + 1 : 1,
         name: `ITEM ${items.length + 1}`,
         price: 10.0,
       },
     ]);
   }
 
-  function removeItem(idx: number) {
-    setItems((items: ReceiptItem[]) => items.filter((_, i) => i !== idx));
-    setAssignments((assignments: Record<number, string[]>) => {
+  function removeItem(idx) {
+    setItems((items) => items.filter((_, i) => i !== idx));
+    setAssignments((assignments) => {
       const newAssignments = { ...assignments };
       const itemId = items[idx]?.id;
       if (itemId != null) delete newAssignments[itemId];

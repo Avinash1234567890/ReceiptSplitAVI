@@ -127,7 +127,7 @@ export default function UploadPage() {
         price: item.price,
       }));
       setItems(newItems);
-      router.push('/split');
+      router.push('/assign');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
